@@ -1,151 +1,161 @@
-# ⚠️ Exceptions in Java
+# Errors and Exceptions in Java
+
+Programming in Java (or any other language) involves dealing with different kinds of **errors** that
+occur during development and execution. Understanding these errors is key to writing robust, maintainable,
+and bug-free applications.
 
 ---
 
-## 🔎 Errors vs Exceptions
+## 1. Types of Errors in Java
 
-| Feature      | Errors (serious)                         | Exceptions (recoverable)              |
-|--------------|------------------------------------------|---------------------------------------|
-| Meaning      | Problems in JVM/system                   | Problems in program logic             |
-| Recoverable? | ❌ No (program usually stops)             | ✅ Yes (can be caught)                 |
-| Checked?     | Not checked                              | Checked by compiler/runtime           |
-| Examples     | `OutOfMemoryError`, `StackOverflowError` | `NullPointerException`, `IOException` |
+### ✅ 1.1 Compilation Errors
+- Occur during the **compilation phase**.
+- Caused by violating the rules of the Java language (syntax errors).
+- The compiler detects them **before running the program**.
+- Examples:
+  - Missing semicolon `;`
+  - Using an undeclared variable
+  - Mismatched data types in assignments
 
-👉 **Key idea**:  
-- **Exceptions** = problems you can handle.  
-- **Errors** = critical issues you usually don’t handle.  
-
----
-
-## 🏗 Types of Exceptions
-
-1. **Checked Exceptions (compile time)**  
-   - Must handle with `try-catch` or `throws`.  
-   - Example: `IOException`, `SQLException`.  
-
-2. **Unchecked Exceptions (runtime)**  
-   - Happen while running the program.  
-   - Not checked at compile time.  
-   - Example: `NullPointerException`, `ArithmeticException`.  
-
-3. **Errors**  
-   - Serious issues.  
-   - Example: `OutOfMemoryError`, `StackOverflowError`.  
-
----
-
-## 📚 Exception Hierarchy (Simple)
-
-```txt
-Throwable
- ├── Error               (serious problems)
- └── Exception
-       ├── Checked       (IOException, SQLException)
-       └── Unchecked     (RuntimeException)
+```java
+int x = "Hello";  // ❌ Compilation Error: incompatible types
 ````
 
 ---
 
-## 📋 Common Java Exceptions
+### ✅ 1.2 Runtime Errors
 
-### ✅ Checked Exceptions
+* Happen **while the program is running**.
+* They cause the program to terminate abnormally if not handled.
+* Typically caused by exceptional situations, such as invalid input, memory issues, or illegal operations.
+* Examples:
 
-* `IOException` → Input/output problem
-* `FileNotFoundException` → File not found
-* `SQLException` → Database error
-* `ClassNotFoundException` → Class missing
-* `InterruptedException` → Thread interrupted
+    * Dividing a number by zero
+    * Accessing an invalid array index
 
-### ⚡ Unchecked Exceptions (Runtime)
-
-* `NullPointerException` → Using null object
-* `ArrayIndexOutOfBoundsException` → Wrong array index
-* `ArithmeticException` → Divide by zero
-* `NumberFormatException` → Bad string-to-number conversion
-* `ClassCastException` → Wrong type casting
-* `IllegalArgumentException` → Bad argument passed
-
-### ❌ Errors
-
-* `OutOfMemoryError` → JVM ran out of memory
-* `StackOverflowError` → Infinite recursion
-* `VirtualMachineError` → JVM failure
-* `LinkageError` → Class linking problem
+```java
+int a = 5 / 0;  // ❌ Runtime Error: ArithmeticException
+```
 
 ---
 
-## 🛠 How to Handle Exceptions
+### ✅ 1.3 Logical Errors
 
-### 1. Using **try-catch**
+* The program **runs successfully** but produces **incorrect or unintended results**.
+* Harder to detect since there are no compilation or runtime error messages.
+* Usually caused by incorrect algorithm design or flawed logic.
+* Examples:
+
+    * Using `>` instead of `<` in a condition
+    * Incorrect formula implementation
 
 ```java
-public class Example1 
+int marks = 85;
+if (marks > 90) 
 {
-    public static void main(String[] args) 
-    {
-        try 
-        {
-            int result = 10 / 0; // risky code
-        } 
-        catch (ArithmeticException e) 
-        {
-            System.out.println("Error: Cannot divide by zero.");
-        }
-    }
+    System.out.println("Passed");  // ❌ Logical Error: wrong condition
 }
 ```
 
-### 2. Using **try-catch-finally**
+---
 
-```java
-public class Example2 
-{
-    public static void main(String[] args) 
-    {
-        try 
-        {
-            String text = null;
-            System.out.println(text.length());
-        } 
-        catch (NullPointerException e) 
-        {
-            System.out.println("Caught a null pointer!");
-        } 
-        finally 
-        {
-            System.out.println("This block always runs.");
-        }
-    }
-}
+## 2. Exceptions in Java
+
+In Java, **exceptions** are events that occur during program execution and disrupt the normal
+flow of instructions. Java provides a **robust exception-handling mechanism** using `try-catch-finally` blocks.
+
+---
+
+### ✅ 2.1 Exception Hierarchy
+
+```
+Throwable
+ ├── Error (serious problems, cannot be handled by the program)
+ │     ├── OutOfMemoryError
+ │     ├── StackOverflowError
+ │     └── VirtualMachineError
+ │
+ └── Exception (recoverable problems, can be handled)
+       ├── Checked Exceptions (must be handled at compile time)
+       │     ├── IOException
+       │     ├── SQLException
+       │     └── FileNotFoundException
+       │
+       └── Unchecked Exceptions (RuntimeExceptions, detected at runtime)
+             ├── ArithmeticException
+             ├── NullPointerException
+             ├── ArrayIndexOutOfBoundsException
+             ├── ClassCastException
+             └── NumberFormatException
 ```
 
-### 3. Declaring with **throws**
+---
+
+### ✅ 2.2 Types of Exceptions
+
+#### 🔹 Checked Exceptions
+
+* Checked at **compile-time**.
+* If not handled, the compiler shows an error.
+* Examples: `IOException`, `SQLException`.
 
 ```java
 import java.io.*;
 
-public class Example3 
+public class CheckedExample 
 {
-    public static void readFile() throws IOException 
-    {
-        FileReader fr = new FileReader("data.txt");
-    }
-    
     public static void main(String[] args) 
     {
         try 
         {
-            readFile();
+            FileReader fr = new FileReader("data.txt");
         } 
-        catch (IOException e) 
+        catch (FileNotFoundException e) 
         {
-            System.out.println("File error: " + e.getMessage());
+            System.out.println("File not found!");
         }
     }
 }
 ```
 
-### 4. Creating a **Custom Exception**
+#### 🔹 Unchecked Exceptions
+
+* Checked at **runtime**, not by the compiler.
+* Subclasses of `RuntimeException`.
+* Examples: `NullPointerException`, `ArithmeticException`.
+
+```java
+public class UncheckedExample 
+{
+    public static void main(String[] args) 
+    {
+        int num = 5 / 0; // ArithmeticException
+    }
+}
+```
+
+---
+
+### ✅ 2.3 Exception Handling Keywords
+
+1. **try** → block of code that may throw an exception
+2. **catch** → handles the exception
+3. **finally** → block that always executes (cleanup, closing files)
+4. **throw** → used to **explicitly** throw an exception
+5. **throws** → declares exceptions a method can throw
+
+```java
+public void readFile(String file) throws IOException 
+{
+    FileReader fr = new FileReader(file);
+}
+```
+
+---
+
+### ✅ 2.4 Custom Exceptions
+
+You can create your own exceptions by extending `Exception` or `RuntimeException`.
 
 ```java
 class InvalidAgeException extends Exception 
@@ -156,24 +166,25 @@ class InvalidAgeException extends Exception
     }
 }
 
-public class Example4 
+public class CustomExceptionDemo 
 {
     static void checkAge(int age) throws InvalidAgeException 
     {
         if (age < 18) 
         {
-            throw new InvalidAgeException("Age must be 18 or older.");
+            throw new InvalidAgeException("Age must be 18 or above!");
         }
     }
+
     public static void main(String[] args) 
     {
         try 
         {
-            checkAge(15);
-        } 
+            checkAge(16);
+        }
         catch (InvalidAgeException e) 
         {
-            System.out.println("Exception: " + e.getMessage());
+            System.out.println("Caught Exception: " + e.getMessage());
         }
     }
 }
@@ -181,12 +192,40 @@ public class Example4
 
 ---
 
-## 🎯 Key Takeaways
+### ✅ 2.5 Best Practices for Exception Handling
 
-* Use `try-catch` to **handle problems gracefully**.
-* Use `finally` for code that must always run (like closing files).
-* Use `throws` to **pass responsibility** to the caller.
-* Create **custom exceptions** for application-specific rules.
-* Don’t catch `Error` (like `OutOfMemoryError`) — usually fatal.
+* Use **specific exception types** instead of a generic `Exception`.
+* Avoid empty `catch` blocks.
+* Use `finally` (or **try-with-resources**) for cleanup like closing streams.
+* Do not overuse exceptions for normal program flow.
+* Create **custom exceptions** for meaningful error handling.
+* Always log exceptions for debugging.
 
 ---
+
+## 3. Common Exceptions in Java
+
+Here are the most frequent exceptions you’ll encounter:
+
+1. **ArithmeticException** – division by zero
+2. **NullPointerException** – accessing methods/fields on a null object
+3. **ArrayIndexOutOfBoundsException** – invalid array index access
+4. **StringIndexOutOfBoundsException** – invalid string index access
+5. **ClassCastException** – invalid type casting
+6. **NumberFormatException** – invalid string to number conversion
+7. **IllegalArgumentException** – invalid method arguments
+8. **IllegalStateException** – method invoked at an illegal or inappropriate time
+9. **IOException** – input/output operation failure
+10. **FileNotFoundException** – trying to access a non-existent file
+11. **SQLException** – database access errors
+12. **InterruptedException** – thread interruption
+13. **UnsupportedOperationException** – operation not supported
+
+---
+
+## 📌 Summary
+
+* **Compilation Errors** → Detected by the compiler, syntax-related.
+* **Runtime Errors** → Occur while running the program, often exceptions.
+* **Logical Errors** → Program runs but produces wrong output.
+* **Exceptions** → Java’s mechanism to handle runtime issues gracefully.
