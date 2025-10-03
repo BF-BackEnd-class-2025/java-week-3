@@ -49,7 +49,7 @@
 
     * Classes: `Song`, `Playlist`, `Artist`.
     * A `Playlist` **HAS-A List<Song>`.
-    * Use `Set<String>` to prevent duplicate songs.
+    * Use `List<String>`. check if the List contains a song before adding.
     * Features: add/remove songs, shuffle playlist.
 
 ---
