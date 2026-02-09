@@ -176,3 +176,6 @@ ArrayList LinkedList Vector HashSet TreeSet EnumSet   Hashtable
 └──> ArrayDeque
 ```
 ---
+
+
+* **Immutable collections (Java 9)** → `List.of`, `Map.of`

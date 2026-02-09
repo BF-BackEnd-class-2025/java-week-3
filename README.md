@@ -34,6 +34,7 @@ This week focuses on deepening understanding of OOP concepts, setting the founda
 * Create class hierarchies demonstrating inheritance and polymorphism
 * Implement multiple interfaces in a single class
 * Practice encapsulation with proper access modifiers and getters/setters
+* Model simple domain data using records and immutable collections
 
 
 

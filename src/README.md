@@ -59,6 +59,16 @@ Java provides built-in **data structures** for managing groups of objects.
 
 ---
 
+## 🧭 Modern Java (9-17)
+
+Bring a modern perspective to OOP and data modeling.
+
+* **Records (Java 16)** → concise, immutable data carriers
+* **Sealed classes (Java 17)** → restrict inheritance with `sealed` / `permits` / `non-sealed`
+* **Pattern matching (Java 16+)** → cleaner `instanceof` checks
+
+---
+
 ## 📖 Mini Project 
 
 Pulls everything together:
@@ -79,6 +89,8 @@ By the end of Week 3 you will:
 * ✅ Differentiate between **IS-A** and **HAS-A** relationships
 * ✅ Write constructors and static methods correctly
 * ✅ Use Java Collections (`List`, `Set`, `Map`) effectively
+* ✅ Model immutable data using records and collection factories
+* ✅ Apply sealed classes and pattern matching in OOP hierarchies
 * ✅ Build a real-world **Library Management System**
 
 ---
