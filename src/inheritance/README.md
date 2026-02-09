@@ -74,7 +74,6 @@ By the end of this section, you will be able to:
 
 * **Modern Java (9-17)**
 
-    * Records for immutable data carriers (Java 16)
     * Sealed classes with `sealed` / `permits` / `non-sealed` (Java 17)
     * Pattern matching with `instanceof` (Java 16+)
     * Immutable collections with `List.of` and `Map.of` (Java 9)
