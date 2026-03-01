@@ -1,23 +1,71 @@
 package interfaces.examples.laborer;
 
-
-interface Door {
-    void build();
+interface Lockable {
+    void lock();
+    void unlock();
 }
 
-class WoodenDoor implements Door {
-    public void build() {
-        System.out.println("Building a wooden door");
+abstract class Door {
+    private int height = 0;     // implicitly they are all static
+    private int width = 0;      // implicitly they are final
+
+    public abstract void build();
+
+    public int getArea() {
+        return getHeight() * getWidth();
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) throws IllegalArgumentException{
+        if(height < 0) throw new IllegalArgumentException();
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 }
 
-class SteelDoor implements Door {
+class WoodenDoor extends Door implements Lockable {
+    public void build() {
+        System.out.println("Building a wooden door");
+    }
+
+    public void lock() {
+        System.out.println("Locking");
+    }
+
+    public void unlock() {
+        System.out.println("Unlocking");
+    }
+}
+
+class SteelDoor extends Door implements Lockable {
     public void build() {
         System.out.println("Building a steel door");
+    }
+
+    @Override
+    public void lock() {
+        System.out.println("SteelDoor locking");
+    }
+
+    @Override
+    public void unlock() {
+        System.out.println("SteelDoor unlocking");
+
     }
 }
 
 interface Paint {
+
     void apply();
 }
 class RedPaint implements Paint {
@@ -34,24 +82,44 @@ class BluePaint implements Paint {
 
 class Laborer {
 
-    private final Door door;
-    private final Paint paint;
+    private Door door;
+    private Paint paint;
 
     public Laborer(Door door, Paint paint) {
         this.door = door;
         this.paint = paint;
     }
 
+    public void setDoor(Door door) {
+        this.door = door;
+    }
+
+    public Door getDoor() {
+        return door;
+    }
+
+    public void setPaint(Paint paint) {
+        this.paint = paint;
+    }
+
+    public Paint getPaint() {
+        return paint;
+    }
+
     public void produce() {
         door.build();
         paint.apply();
     }
+
 }
 
 public class HouseClient {
     public static void main(String[] args) {
 
         //There are different types of paint and doors, they are interchangable, they are decided on runtime, this is Strategy pattern
+
+        WoodenDoor wd = new WoodenDoor();
+        wd.setWidth(10);
 
         Laborer maker1 =
                 new Laborer(new WoodenDoor(), new RedPaint());        //This is dependency injection
@@ -70,6 +138,12 @@ public class HouseClient {
         maker2.produce();
 
         /*
+            Single Responsibility
+            Open Closed Principle
+
+            Dependency Inversion Principle
+            SOLID
+
             Dependency Inversion Principle
             High-level modules should not depend on low-level modules.
             Both should depend on abstractions.
