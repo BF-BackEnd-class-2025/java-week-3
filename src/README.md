@@ -59,18 +59,6 @@ Java provides built-in **data structures** for managing groups of objects.
 
 ---
 
-## 🧭 Modern Java (9-17)
-
-Bring a modern perspective to OOP and data modeling.
-
-* **Sealed classes (Java 17)** → restrict inheritance with `sealed` / `permits` / `non-sealed`
-* **Pattern matching (Java 16+)** → cleaner `instanceof` checks
-* **Immutable collections (Java 9)** → `List.of`, `Map.of`
-
-Examples and a mini lab live in `src/modern-java`.
-
----
-
 ## 📖 Mini Project 
 
 Pulls everything together:
